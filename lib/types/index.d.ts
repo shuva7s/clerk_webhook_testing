@@ -12,4 +12,11 @@ declare type UpdateUserParams = {
     lastName: string;
     username: string;
     photo: string;
-  };
+};
+
+declare type CreatePostParams = {
+    authorId: string;
+    userName: string;
+    title: string;
+    content: string;
+}

@@ -6,10 +6,35 @@ import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
 import { handleError } from "../utils";
 
+//get dataBaseId based on the Clerk id
+export async function findUserIdAndUsernameByClerkId(clerkId: string | undefined) {
+    if (!clerkId) {
+        console.log("Received undefined clerkId");
+        return null; // or throw an error if appropriate
+    }
+
+    try {
+        await connectToDatabase();
+
+        const user = await User.findOne({ clerkId }).select('_id username');
+
+        if (!user) {
+            console.log("User not found");
+            return null;
+        }
+        const userIdString = user._id.toString();
+
+        return { userId: userIdString, username: user.username };
+    } catch (error) {
+        handleError(error);
+        return null;
+    }
+}
+
+
 // CREATE
 export async function createUser(user: CreateUserParams) {
     try {
-        console.log("createUser function called");
         await connectToDatabase();
 
         const newUser = await User.create(user);
@@ -21,7 +46,7 @@ export async function createUser(user: CreateUserParams) {
 }
 
 // READ
-export async function getUserById(userId: string) {
+export async function getUserById(userId: string | undefined) {
     try {
         await connectToDatabase();
 
@@ -34,6 +59,25 @@ export async function getUserById(userId: string) {
         handleError(error);
     }
 }
+
+export async function getAuthorInfoNameById(clerkId: string) {
+    try {
+        await connectToDatabase();
+
+        const user = await User.findOne({ clerkId: clerkId });
+
+        if (!user) {
+            console.error("User not found");
+            return { authorName: "", authorImage: "" };
+        }
+
+        return { authorName: user.username, authorImage: user.photo };
+    } catch (error) {
+        handleError(error);
+        return { authorName: "", authorImage: "" };
+    }
+}
+
 
 // UPDATE
 export async function updateUser(clerkId: string, user: UpdateUserParams) {
@@ -69,25 +113,6 @@ export async function deleteUser(clerkId: string) {
         revalidatePath("/");
 
         return deletedUser ? JSON.parse(JSON.stringify(deletedUser)) : null;
-    } catch (error) {
-        handleError(error);
-    }
-}
-
-// USE CREDITS
-export async function updateCredits(userId: string, creditFee: number) {
-    try {
-        await connectToDatabase();
-
-        const updatedUserCredits = await User.findOneAndUpdate(
-            { _id: userId },
-            { $inc: { creditBalance: creditFee } },
-            { new: true }
-        )
-
-        if (!updatedUserCredits) throw new Error("User credits update failed");
-
-        return JSON.parse(JSON.stringify(updatedUserCredits));
     } catch (error) {
         handleError(error);
     }

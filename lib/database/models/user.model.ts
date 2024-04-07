@@ -26,6 +26,16 @@ const UserSchema = new Schema({
   lastName: {
     type: String,
   },
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post" // Assuming you have a Post model defined elsewhere
+    }
+  ],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
 const User = models?.User || model("User", UserSchema);
