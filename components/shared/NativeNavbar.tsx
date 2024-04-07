@@ -5,8 +5,8 @@ import Image from "next/image"
 
 const NativeNavbar = () => {
     return (
-        <div className="w-full flex justify-center fixed bottom-0 bg-white py-2 border-t sm:hidden">
-            <Button asChild variant="outline" size="icon" className="p-2 rounded-full">
+        <div className="w-full flex justify-center fixed left-0 bottom-0 bg-white py-2 border-t sm:hidden">
+            <Button asChild variant="outline" size="icon" className="p-2 rounded-full block">
                 <Link href="/create" >
                     <Image
                         src="/add.svg"
