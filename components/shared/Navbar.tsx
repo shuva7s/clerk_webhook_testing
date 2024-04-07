@@ -5,7 +5,7 @@ export default function Navbar() {
     return (
         <header className="flex items-center justify-between py-5">
             <p className="text-2xl">Logo</p>
-            <nav>
+            <nav className="max-sm:hidden">
                 <ul className="flex gap-4">
                     <li className="p-2"><Link href="/">link</Link></li>
                     <li className="p-2"><Link href="/">link</Link></li>
@@ -19,7 +19,7 @@ export default function Navbar() {
             </SignedOut>
             <SignedIn>
                 <div className="flex gap-4 items-center">
-                    <Button asChild variant="outline">
+                    <Button asChild variant="outline" className="max-sm:hidden">
                         <Link href="/create">Cerate Post</Link>
                     </Button>
                     <UserButton afterSignOutUrl="/" />
