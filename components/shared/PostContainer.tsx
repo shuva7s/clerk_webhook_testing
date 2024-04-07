@@ -44,7 +44,7 @@ const PostContainer = async () => {
                             <ClientInteractionToPost postId={post._id.toString()} likedArray={post.likes} currentlyLoggedInUserName={currentlyLoggedInUserName} />
                         </SignedIn>
                         <SignedOut>
-                            <Button asChild>
+                            <Button asChild className="mt-4">
                                 <Link href="/sign-in">Like</Link>
                             </Button>
                         </SignedOut>
