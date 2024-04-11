@@ -59,6 +59,24 @@ export async function getAllPosts() {
     }
 }
 
+const limit = 3;
+
+export async function getPosts() {
+    try {
+        await connectToDatabase();
+        const posts = await Post.find()
+            .sort({ createdAt: -1 }) // Sort posts in descending order of creation time
+        // .skip(page * limit) // Skip the posts that have already been fetched
+        // .limit(limit); // Limit to 20 posts
+
+        // page++; // Increment the page number for the next call
+
+        return posts;
+    } catch (error) {
+        handleError(error);
+        return [];
+    }
+}
 
 export async function likePost(postId: string, currentlyLoggedInUserName: string) {
     try {
@@ -112,6 +130,21 @@ export async function getUserNameFromClerkId(clerkId: string) {
     } catch (error) {
         handleError(error);
         return null;
+    }
+}
+
+export async function getPostByPostId(postId: string) {
+    try {
+        await connectToDatabase();
+
+        const post = await Post.findById(postId);
+
+        if (!post) throw new Error("Post not found");
+
+        return post;
+    } catch (error) {
+        console.error(error);
+        throw error;
     }
 }
 
