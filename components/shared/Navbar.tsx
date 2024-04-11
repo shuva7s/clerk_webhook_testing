@@ -5,7 +5,7 @@ import { ModeToggle } from "./ThemeSwitch";
 
 export default function Navbar() {
     return (
-        <header className="flex items-center justify-between py-5 px-5 md:px-8 xl:px-10">
+        <header className="flex items-center justify-between py-5 px-3 md:px-8 xl:px-10">
             <div className="flex gap-10 items-center">
                 <p className="text-2xl">Logo</p>
                 <nav className="max-sm:hidden">
