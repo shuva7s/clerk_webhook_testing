@@ -58,15 +58,14 @@ export async function getAllPosts() {
 
 const limit = 3;
 
-// export async function fetchAnime(page: number) {
-//     const response = await fetch(
-//       `https://shikimori.one/api/animes?page=${page}&limit=${}&order=popularity`
-//     );
-
-//     const data = await response.json();
-
-//     return data;
-//   }
+export async function fetchPosts(page: number) {
+  const response = await fetch(
+    `https://clerk-webhook-testing.vercel.app/api/posts?page=${page}`
+  );
+  const data = await response.json();
+  // console.log(data);
+  // return data.topics;
+}
 
 export async function likePost(
   postId: string,
