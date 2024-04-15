@@ -1,9 +1,9 @@
-import { getPosts } from "@/lib/actions/post.actions";
+import { getAllPosts } from "@/lib/actions/post.actions";
 import PostCard from "./PostCard";
 
 export default async function PostContainer() {
     // const posts = await getPosts(1);
-    const posts = await getPosts();
+    const posts = await getAllPosts();
     console.log(posts);
 
     return (
