@@ -56,15 +56,14 @@ export async function getAllPosts() {
   }
 }
 
-const limit = 3;
-
 export async function fetchPosts(page: number) {
   const response = await fetch(
-    `https://clerk-webhook-testing.vercel.app/api/posts?page=${page}`
+    // `https://clerk-webhook-testing.vercel.app/api/posts?page=${page}`
+    `http://localhost:3000/api/posts?page=${page}`
   );
   const data = await response.json();
   // console.log(data);
-  // return data.topics;
+  return data;
 }
 
 export async function likePost(
@@ -79,13 +78,40 @@ export async function likePost(
       return;
     }
     if (post.likes.includes(currentlyLoggedInUserName)) {
-      console.log("User has already liked this post");
+      const index = post.likes.indexOf(currentlyLoggedInUserName);
+      post.likes.splice(index, 1);
+      console.log("User unliked this post");
+      await post.save();
+      console.log(post);
       return true;
+    } else {
+      post.likes.push(currentlyLoggedInUserName);
+      console.log("User liked this post");
+      await post.save();
+      console.log(post);
+      return false;
     }
-    post.likes.push(currentlyLoggedInUserName);
+  } catch (error) {
+    handleError(error);
+  }
+}
+export async function addCommentToPost(
+  postId: string,
+  commentor: string,
+  comment: string
+) {
+  try {
+    await connectToDatabase();
+    const post = await Post.findById(postId);
+    if (!post) {
+      console.log("Post not found for postId:", postId);
+      return;
+    }
+    // Add the new comment to the post's comments array
+    post.comments.push({ commentor, comment });
+    console.log("Comment added to post");
     await post.save();
     console.log(post);
-    return false;
   } catch (error) {
     handleError(error);
   }
