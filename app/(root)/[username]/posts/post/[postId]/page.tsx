@@ -5,7 +5,9 @@ import {
   getUserNameFromClerkId,
 } from "@/lib/actions/post.actions";
 import ClientInteractionToPost from "@/components/shared/ClientInteractionToPost";
-import { auth } from "@clerk/nextjs";
+import { SignedIn, auth } from "@clerk/nextjs";
+import Link from "next/link";
+import DeletePost from "@/components/shared/DeletePost";
 const PostDetails = async ({ params }: { params: { postId: string } }) => {
   const { postId } = params;
   const post = await getPostByPostId(postId);
@@ -23,7 +25,27 @@ const PostDetails = async ({ params }: { params: { postId: string } }) => {
           />
         )}
 
-        <div className="flex-grow py-6">
+        <div className="flex-grow py-6 relative">
+          <SignedIn>
+            {currentlyLoggedInUserName === post.authorName && (
+              <div className="flex gap-2 absolute top-2 right-2">
+                <Link
+                  href={`/${currentlyLoggedInUserName}/posts/post/${post._id}/update`}
+                >
+                  <Button variant="outline">
+                    <Image
+                      src="/edit.svg"
+                      alt="delete"
+                      width={16}
+                      height={16}
+                      className="invert-image opacity-50"
+                    />
+                  </Button>
+                </Link>
+                <DeletePost postId={post._id.toString()}></DeletePost>
+              </div>
+            )}
+          </SignedIn>
           <div>
             <h3>{post.title}</h3>
             <p>{post.content}</p>

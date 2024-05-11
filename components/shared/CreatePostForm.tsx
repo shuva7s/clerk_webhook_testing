@@ -64,6 +64,7 @@ const CreatePostForm = ({ authorData }: CreatePostFormProps) => {
             await createPost(values);
             form.reset();
             router.push(`/`);
+            router.refresh();
         } catch (error) {
             console.log(error);
         }

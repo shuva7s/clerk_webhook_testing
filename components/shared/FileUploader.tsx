@@ -31,7 +31,7 @@ export function FileUploader({ imageUrl, onFieldChange, setFiles }: FileUploader
       <input {...getInputProps()} className="cursor-pointer" />
 
       {imageUrl ? (
-        <div className="flex h-full w-full flex-1 justify-center ">
+        <div className="flex h-full w-full flex-1 justify-center">
           <img
             src={imageUrl}
             alt="image"

@@ -7,7 +7,7 @@ const CreatePostPage = async () => {
     const Clerk_user_id = sessionClaims?.sub as string;
     const authorData = await getAuthorInfoNameById(Clerk_user_id);
     return (
-        <main className="min-h-screen items-center px-3 md:px-8 xl:px-10">
+        <main className="min-h-screen px-3 md:px-8 xl:px-10 max-w-[800px] mx-auto">
             <SignedIn>
                 <CreatePostForm authorData={authorData} />
             </SignedIn>

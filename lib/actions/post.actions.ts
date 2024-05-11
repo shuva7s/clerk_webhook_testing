@@ -29,6 +29,30 @@ export async function createPost(postData: CreatePostParams) {
   }
 }
 
+type UpdatePostParams = {
+  title: string;
+  content: string;
+  imageUrl?: string;
+};
+
+export async function updatePost(postId: string, postData: UpdatePostParams) {
+  try {
+    await connectToDatabase();
+    const updatedPost = await Post.findByIdAndUpdate(
+      postId,
+      {
+        title: postData.title,
+        content: postData.content,
+        imageUrl: postData.imageUrl,
+      },
+      { new: true }
+    );
+    console.log(updatedPost);
+  } catch (error) {
+    handleError(error);
+  }
+}
+
 export async function getPostsByClerkId(clerkId: string) {
   try {
     await connectToDatabase();
@@ -163,5 +187,16 @@ export async function getPostByPostId(postId: string) {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+}
+
+export async function deletePost(postId: string) {
+  try {
+    await connectToDatabase();
+    const deletedPost = await Post.deleteOne({ _id: postId });
+    console.log("Deleted post: ");
+    console.log(deletedPost);
+  } catch (error) {
+    handleError(error);
   }
 }

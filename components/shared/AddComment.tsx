@@ -9,6 +9,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import {
@@ -38,7 +39,6 @@ interface AddCommentProps {
 
 const AddComment = ({ commentor, onSubmit }: AddCommentProps) => {
   const [comment, setComment] = useState("");
-
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,7 +91,9 @@ const AddComment = ({ commentor, onSubmit }: AddCommentProps) => {
                 </FormItem>
               )}
             />
-            <Button type="submit">Add Comment</Button>
+            <DialogClose>
+              <Button type="submit">Add Comment</Button>
+            </DialogClose>
           </form>
         </Form>
       </DialogContent>

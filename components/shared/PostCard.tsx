@@ -5,6 +5,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import ClientInteractionToPost from "./ClientInteractionToPost";
 import { getUserNameFromClerkId } from "@/lib/actions/post.actions";
+import DeletePost from "./DeletePost";
 
 type postCardProp = {
   post: {
@@ -24,15 +25,35 @@ const PostCard = async ({ post }: postCardProp) => {
   const currentlyLoggedInUserName = await getUserNameFromClerkId(Clerk_user_id);
   return (
     <div key={post._id} className="break-inside-avoid border p-4">
-      <div className="flex items-center gap-2">
-        <Image
-          src={post.authorImage}
-          width={30}
-          height={30}
-          alt="Author-Image"
-          className="rounded-full"
-        />
-        <h3 className="text-blue-600">@{post.authorName}</h3>
+      <div className="flex justify-between">
+        <div className="flex items-center gap-2">
+          <Image
+            src={post.authorImage}
+            width={30}
+            height={30}
+            alt="Author-Image"
+            className="rounded-full"
+          />
+          <h3 className="text-blue-600">@{post.authorName}</h3>
+        </div>
+        <SignedIn>
+          {currentlyLoggedInUserName === post.authorName && (
+            <div className="flex gap-2">
+              <Link href={`/${currentlyLoggedInUserName}/posts/post/${post._id}/update`}>
+                <Button variant="outline">
+                  <Image
+                    src="/edit.svg"
+                    alt="delete"
+                    width={16}
+                    height={16}
+                    className="invert-image opacity-50"
+                  />
+                </Button>
+              </Link>
+              <DeletePost postId={post._id.toString()}></DeletePost>
+            </div>
+          )}
+        </SignedIn>
       </div>
       <a href={`${post.authorName}/posts/post/${post._id}`}>
         <div className="mt-4">
@@ -41,8 +62,8 @@ const PostCard = async ({ post }: postCardProp) => {
           {post.imageUrl && (
             <Image
               src={post.imageUrl}
-              width={200}
-              height={200}
+              width={300}
+              height={300}
               alt="post-Image"
               className="w-full"
             />
