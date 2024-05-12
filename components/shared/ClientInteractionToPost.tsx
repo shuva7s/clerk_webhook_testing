@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import AddComment from "./AddComment";
+import { useRouter } from "next/navigation";
 
 type postType = {
   postId: string;
@@ -21,7 +22,7 @@ const ClientInteractionToPost = ({
   const [hasLiked, setHasLiked] = useState(
     likedArray.includes(currentlyLoggedInUserName)
   );
-
+  const router = useRouter();
   const handleLike = async () => {
     try {
       const alreadyLiked = await likePost(postId, currentlyLoggedInUserName);
@@ -41,7 +42,7 @@ const ClientInteractionToPost = ({
     try {
       // Call the function to add comment to the post
       await addCommentToPost(postId, currentlyLoggedInUserName, comment);
-      // Optionally, you can update the UI to reflect the new comment
+      router.refresh();
     } catch (error) {
       console.error(error);
     }
@@ -72,7 +73,10 @@ const ClientInteractionToPost = ({
         )}
         <span>{likeCount}</span>
       </Button>
-      <AddComment commentor={currentlyLoggedInUserName} onSubmit={handleCommentSubmit} />
+      <AddComment
+        commentor={currentlyLoggedInUserName}
+        onSubmit={handleCommentSubmit}
+      />
     </div>
   );
 };

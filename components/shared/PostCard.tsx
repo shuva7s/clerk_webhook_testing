@@ -65,7 +65,7 @@ const PostCard = async ({ post }: postCardProp) => {
               width={300}
               height={300}
               alt="post-Image"
-              className="w-full"
+              className="w-full mt-1"
             />
           )}
         </div>

@@ -14,7 +14,7 @@ const UpdatePage = async ({ params }: { params: { postId: string } }) => {
     <main className="min-h-screen px-3 md:px-8 xl:px-10 max-w-[800px] mx-auto">
       <SignedIn>
         <UpdatePostForm postData={newPostObject} postId={postId}/>
-      </SignedIn>
+      </SignedIn> 
     </main>
   );
 };

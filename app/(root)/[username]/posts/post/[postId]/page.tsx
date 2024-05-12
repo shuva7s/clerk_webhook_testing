@@ -28,7 +28,7 @@ const PostDetails = async ({ params }: { params: { postId: string } }) => {
         <div className="flex-grow py-6 relative">
           <SignedIn>
             {currentlyLoggedInUserName === post.authorName && (
-              <div className="flex gap-2 absolute top-2 right-2">
+              <div className="flex gap-2 absolute top-2 right-0">
                 <Link
                   href={`/${currentlyLoggedInUserName}/posts/post/${post._id}/update`}
                 >
@@ -60,22 +60,22 @@ const PostDetails = async ({ params }: { params: { postId: string } }) => {
               currentlyLoggedInUserName={currentlyLoggedInUserName}
             />
           </div>
-          <div className="mt-6">
-            <div className="w-full flex items-center justify-between">
-              <p>Comments</p>
+          <div className="mt-6 mb-10">
+            <h4>Comments...</h4>
+            <div className="mt-2 flex flex-col-reverse">
+              {post.comments.map(
+                (comment: {
+                  commentor: string;
+                  comment: string;
+                  _id: string;
+                }) => (
+                  <div className="p-2 rounded-lg mb-2" key={comment._id}>
+                    <p className="text-blue-600">@{comment.commentor}</p>
+                    <p>{comment.comment}</p>
+                  </div>
+                )
+              )}
             </div>
-            {post.comments.map(
-              (comment: {
-                commentor: string;
-                comment: string;
-                _id: string;
-              }) => (
-                <div className="p-2 rounded-lg mb-2" key={comment._id}>
-                  <p className="text-blue-600">@{comment.commentor}</p>
-                  <p>{comment.comment}</p>
-                </div>
-              )
-            )}
           </div>
         </div>
       </div>
